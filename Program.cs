@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Windows.Forms;
 
 namespace PrintText
 {
@@ -8,8 +9,19 @@ namespace PrintText
     {
         static void Main(string[] args)
         {
+            PrinterSettings printerSettings = null;
+
+            var printDialog = new PrintDialog();
+            var result = printDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                printerSettings = printDialog.PrinterSettings;
+            }
+
             string s = "string to print";
             PrintDocument p = new PrintDocument();
+            p.PrinterSettings = printerSettings;
+
             p.PrintPage += delegate (object sender1, PrintPageEventArgs e1)
             {
                 e1.Graphics.DrawString(
