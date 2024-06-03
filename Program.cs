@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Text;
@@ -9,6 +10,7 @@ namespace PrintText
     class Program
     {
         private static int page = 0;
+        private static List<string> pages = new List<string>();
 
         private static void pd_PrintPage(object sender, PrintPageEventArgs e)
         {
@@ -18,8 +20,14 @@ namespace PrintText
 
             var sb = new StringBuilder();
             sb.AppendLine(String.Format("page {0} - report line 1", page));
+            pages.Add("first line");
+
             sb.AppendLine(String.Format("page {0} - report line 2", page));
+            pages[page] += "second line";
+
             sb.AppendLine(String.Format("page {0} - report line 3", page));
+            pages[page] += "third line";
+
             sb.AppendLine(String.Format("page {0} - report line 4", page));
             sb.AppendLine(String.Format("page {0} - report line 5", page));
             sb.AppendLine(String.Format("page {0} - report line 6", page));
@@ -32,6 +40,8 @@ namespace PrintText
 
             Graphics g = e.Graphics;
             e.Graphics.DrawString(sb.ToString(), printFontArial10, Brushes.Black, leftMargin, topMargin + lineInc);
+
+
 
             page++;
             e.HasMorePages = page < 2;
